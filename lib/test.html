@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+<h1>hi test</h1>
+
+<div id="dynamicContent">
+
+
+
+
+</div>  
+
+
+
+
+<form action="http://localhost/oes/lib/public/test.html" method="post">
+  <h1>post from</h1>
+    <input type="text" name="mail" >
+    <input type="text" name="pass" >
+    <input type="submit" name="loginme" >
+    </form>
+  
+
+<script>
+  
+
+
+  document.addEventListener("DOMContentLoaded", function(event) {
+
+
+
+function checkunder(){
+  alert("checkunder");
+}
+
+var dynamicform = document.getElementById('dynamicContent').getElementsByTagName('form');
+
+
+
+
+
+
+
+ console.log("domloaded");   
+ loadback('','');
+
+    // var felements = document.getElementsByTagName('form');
+    // for(var i = 0, len = felements.length; i < len; i++) 
+    // {
+    // felements[i].addEventListener('submit', function(e)
+    // {
+    //   e.preventDefault();
+    //   alert("submit trigered");
+      
+
+
+    // });
+    
+       //}
+
+
+
+
+
+        
+
+
+});
+
+
+function submitform(e){
+
+    var action = e.target.action;
+    var method = e.target.method;
+    var data = new FormData(e.target);
+    
+    console.log(` action=> ${action} method=> ${method} data=> ${data['pass']}`);
+
+
+    url = "http://localhost/oes/ajax/public/login"; 
+                  fetch(url, {
+                    headers:{'I_AM_AJAX': 'YES'},
+                    method:method,
+                    body:data 
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data);
+                      
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  })
+}
+ 
+  
+  function loadback(url,fullLoad=false)
+            {
+               
+                   url = "http://localhost/oes/ajax/public/login"; 
+                    fetch(url, {headers:{'I_AM_AJAX': 'YES'} })
+                    .then(response => response.text())
+                    .then(data => {
+                      document.getElementById("dynamicContent").innerHTML = data;
+                        
+                    })
+                    .catch(error => {document.getElementById("dynamicContent").innerHTML = error;})
+               
+            }
+
+            $(document.body).on('submit', 'form' ,function(e){
+              e.preventDefault();
+         submitform(e);
+            })
+   
+
+</script>
+
+</body>
+</html>
